@@ -142,7 +142,6 @@ public class UsuarioService {
 		Usuario usuario = new Usuario();
 		Session session = this.em.unwrap(Session.class);
 		String sql = "select * from usuario where usulogin='"+login+"' and ususenha='"+senha+"'";
-		System.out.println(sql);
 		Query qr = session.createSQLQuery(sql).addEntity(Usuario.class);
 		List<Usuario> lista = qr.list();
 		if (!lista.isEmpty())

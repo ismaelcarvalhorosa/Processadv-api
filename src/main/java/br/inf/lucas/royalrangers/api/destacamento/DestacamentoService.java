@@ -48,7 +48,6 @@ public class DestacamentoService {
 	public Long gravar(Destacamento destacamento) {
 		Date data = new Date(System.currentTimeMillis());
 		destacamento.setDesdatalt(data);
-		destacamento.setUsucodigo(1);
 		em.persist(destacamento);
 		return destacamento.getDescodigo();
 	}
@@ -61,7 +60,6 @@ public class DestacamentoService {
 	public void atualizar(Destacamento destacamento) {
 		Date data = new Date(System.currentTimeMillis());
 		destacamento.setDesdatalt(data);
-		destacamento.setUsucodigo(1);
 		this.validar(destacamento);
 		em.merge(destacamento);
 	}

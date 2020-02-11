@@ -49,7 +49,6 @@ public class ResponsavelService {
 	public Long gravar(Responsavel responsavel) {
 		Date data = new Date(System.currentTimeMillis());
 		responsavel.setResdatalt(data);
-		responsavel.setUsucodigo(1);
 		em.persist(responsavel);
 		return responsavel.getRescodigo();
 	}
@@ -62,7 +61,6 @@ public class ResponsavelService {
 	public void atualizar(Responsavel responsavel) {
 		Date data = new Date(System.currentTimeMillis());
 		responsavel.setResdatalt(data);
-		responsavel.setUsucodigo(1);
 		this.validar(responsavel);
 		em.merge(responsavel);
 	}

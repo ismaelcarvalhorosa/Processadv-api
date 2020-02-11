@@ -79,10 +79,6 @@ public class Igreja {
 	@JoinColumn(name = "CIDCODIGO")
 	private Cidade cidade;
 	
-	/*@ManyToOne
-	@JoinColumn(name = "USUCODIGO")
-	private Usuario usuario;*/
-	
 	@Column(name = "USUCODIGO")
 	private int usucodigo;
 	

@@ -47,7 +47,6 @@ public class IgrejaService {
 	public Long gravar(Igreja igreja) {
 		Date data = new Date(System.currentTimeMillis());
 		igreja.setIgrdatalt(data);
-		igreja.setUsucodigo(1);
 		em.persist(igreja);
 		return igreja.getIgrcodigo();
 	}
@@ -60,7 +59,6 @@ public class IgrejaService {
 	public void atualizar(Igreja igreja) {
 		Date data = new Date(System.currentTimeMillis());
 		igreja.setIgrdatalt(data);
-		igreja.setUsucodigo(1);
 		this.validar(igreja);
 		em.merge(igreja);
 	}

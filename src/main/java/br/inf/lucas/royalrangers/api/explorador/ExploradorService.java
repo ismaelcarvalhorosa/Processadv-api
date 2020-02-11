@@ -48,7 +48,6 @@ public class ExploradorService {
 	public Long gravar(Explorador explorador) {
 		Date data = new Date(System.currentTimeMillis());
 		explorador.setExpdatalt(data);
-		explorador.setUsucodigo(1);
 		em.persist(explorador);
 		return explorador.getExpcodigo();
 	}
@@ -61,7 +60,6 @@ public class ExploradorService {
 	public void atualizar(Explorador explorador) {
 		Date data = new Date(System.currentTimeMillis());
 		explorador.setExpdatalt(data);
-		explorador.setUsucodigo(1);
 		this.validar(explorador);
 		em.merge(explorador);
 	}

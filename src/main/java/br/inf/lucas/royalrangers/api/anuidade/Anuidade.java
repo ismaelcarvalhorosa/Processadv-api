@@ -55,10 +55,6 @@ public class Anuidade {
 	@Column(name = "ANUVALORPAGO")
 	private Double anuvalorpago;
 	
-	/*@ManyToOne
-	@JoinColumn(name = "USUCODIGO")
-	private Usuario usuario;*/
-	
 	@Column(name = "USUCODIGO")
 	private int usucodigo;
 

@@ -49,7 +49,6 @@ public class ComandanteService {
 	public Long gravar(Comandante comandante) {
 		Date data = new Date(System.currentTimeMillis());
 		comandante.setComdatalt(data);
-		comandante.setUsucodigo(1);
 		em.persist(comandante);
 		return comandante.getComcodigo();
 	}
@@ -62,7 +61,6 @@ public class ComandanteService {
 	public void atualizar(Comandante comandante) {
 		Date data = new Date(System.currentTimeMillis());
 		comandante.setComdatalt(data);
-		comandante.setUsucodigo(1);
 		this.validar(comandante);
 		em.merge(comandante);
 	}

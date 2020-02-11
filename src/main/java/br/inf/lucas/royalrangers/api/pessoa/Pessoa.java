@@ -54,10 +54,6 @@ public class Pessoa {
 	@Size(max = 100)
 	private String pesemail;
 	
-	/*@ManyToOne
-	@JoinColumn(name = "USUCODIGO")
-	private Usuario usuario;*/
-	
 	@Column(name = "USUCODIGO")
 	private int usucodigo;
 	

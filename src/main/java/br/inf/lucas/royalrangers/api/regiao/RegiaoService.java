@@ -47,7 +47,6 @@ public class RegiaoService {
 	public Long gravar(Regiao regiao) {
 		Date data = new Date(System.currentTimeMillis());
 		regiao.setRegdatalt(data);
-		regiao.setUsucodigo(1);
 		em.persist(regiao);
 		return regiao.getRegcodigo();
 	}

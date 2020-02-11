@@ -48,7 +48,6 @@ public class PessoaService {
 	public Long gravar(Pessoa pessoa) {
 		Date data = new Date(System.currentTimeMillis());
 		pessoa.setPesdatalt(data);
-		pessoa.setUsucodigo(1);
 		em.persist(pessoa);
 		return pessoa.getPescodigo();
 	}
@@ -61,7 +60,6 @@ public class PessoaService {
 	public void atualizar(Pessoa pessoa) {
 		Date data = new Date(System.currentTimeMillis());
 		pessoa.setPesdatalt(data);
-		pessoa.setUsucodigo(1);
 		this.validar(pessoa);
 		em.merge(pessoa);
 	}

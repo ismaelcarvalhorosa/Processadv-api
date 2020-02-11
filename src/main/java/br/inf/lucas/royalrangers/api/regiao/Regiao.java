@@ -38,10 +38,6 @@ public class Regiao {
 	@Column(name = "USUCODIGO")
 	@NotNull
 	private int usucodigo;
-	
-	/*@ManyToOne
-	@JoinColumn(name = "USUCODIGO")
-	private Usuario usuario;*/
 
 	public Long getRegcodigo() {
 		return regcodigo;

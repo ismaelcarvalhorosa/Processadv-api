@@ -39,10 +39,6 @@ public class Distrito {
 	@NotNull
 	private Date disdatalt;
 	
-	/*@ManyToOne
-	@JoinColumn(name = "USUCODIGO")
-	private Usuario usuario;*/
-	
 	@Column(name = "USUCODIGO")
 	@NotNull
 	private int usucodigo;

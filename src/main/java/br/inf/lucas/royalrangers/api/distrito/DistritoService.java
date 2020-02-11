@@ -47,7 +47,6 @@ public class DistritoService {
 	public Long gravar(Distrito distrito) {
 		Date data = new Date(System.currentTimeMillis());
 		distrito.setDisdatalt(data);
-		distrito.setUsucodigo(1);
 		em.persist(distrito);
 		return distrito.getDiscodigo();
 	}
@@ -60,7 +59,6 @@ public class DistritoService {
 	public void atualizar(Distrito distrito) {
 		Date data = new Date(System.currentTimeMillis());
 		distrito.setDisdatalt(data);
-		distrito.setUsucodigo(1);
 		this.validar(distrito);
 		em.merge(distrito);
 	}

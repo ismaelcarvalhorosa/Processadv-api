@@ -45,7 +45,6 @@ public class AnuidadeService {
 	
 	@Transactional
 	public Long gravar(Anuidade anuidade) {
-		anuidade.setUsucodigo(1);
 		em.persist(anuidade);
 		return anuidade.getAnucodigo();
 	}
@@ -56,7 +55,6 @@ public class AnuidadeService {
 
 	@Transactional
 	public void atualizar(Anuidade anuidade) {
-		anuidade.setUsucodigo(1);
 		this.validar(anuidade);
 		em.merge(anuidade);
 	}
