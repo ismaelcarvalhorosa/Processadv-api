@@ -138,10 +138,10 @@ public class UsuarioService {
 		return msg;
 	}
 	
-	public Usuario login(String login, String senha) {
+	public Usuario login(Usuario usu) {
 		Usuario usuario = new Usuario();
 		Session session = this.em.unwrap(Session.class);
-		String sql = "select * from usuario where usulogin='"+login+"' and ususenha='"+senha+"'";
+		String sql = "select * from usuario where usulogin='"+usu.getUsulogin()+"' and ususenha='"+usu.getUsusenha()+"'";
 		Query qr = session.createSQLQuery(sql).addEntity(Usuario.class);
 		List<Usuario> lista = qr.list();
 		if (!lista.isEmpty())

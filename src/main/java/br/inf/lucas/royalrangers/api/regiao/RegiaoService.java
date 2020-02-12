@@ -57,9 +57,9 @@ public class RegiaoService {
 
 	@Transactional
 	public void atualizar(Regiao regiao) {
-		this.validar(regiao);
 		Date data = new Date(System.currentTimeMillis());
 		regiao.setRegdatalt(data);
+		this.validar(regiao);
 		em.merge(regiao);
 	}
 	

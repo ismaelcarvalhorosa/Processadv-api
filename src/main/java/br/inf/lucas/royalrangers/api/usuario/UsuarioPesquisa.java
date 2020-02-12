@@ -12,7 +12,7 @@ public class UsuarioPesquisa {
 	@Inject
 	EntityManager em;
 	
-	public PaginationResult<Usuario> executar(Integer pagina, String valor) {
+	public PaginationResult<Usuario> executar(Integer pagina, String valor, String dest) {
 		
 		return new QueryBuilder(em)
 			.select(Usuario.class)
@@ -23,6 +23,15 @@ public class UsuarioPesquisa {
 						w.field(Usuario_.usucodigo).eq(id);
 					} catch (Exception e) {
 						w.field(Usuario_.usunome).ilike("%"+valor+"%");
+					}
+				}
+				if (dest!=null && !dest.isEmpty()) {
+					try {
+						Long des = Long.valueOf(dest);
+						if (des>0) {
+							w.field("destacamento.descodigo").eq(des);
+						}
+					} catch (Exception e) {
 					}
 				}
 			})

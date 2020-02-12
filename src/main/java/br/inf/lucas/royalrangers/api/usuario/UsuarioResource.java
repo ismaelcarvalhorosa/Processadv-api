@@ -66,8 +66,9 @@ public class UsuarioResource {
 	@Path("/pesquisa")
 	public PaginationResult<Usuario> pesquisa(
 			@QueryParam("pagina") Integer pagina,
-			@Parameter(required = false, name = "valor") @QueryParam("valor") String valor) {
-		return usuarioPesquisa.executar(pagina, valor);
+			@Parameter(required = false, name = "valor") @QueryParam("valor") String valor,
+			@Parameter(required = false, name = "dest") @QueryParam("dest") String dest) {
+		return usuarioPesquisa.executar(pagina, valor, dest);
 	}
 	
 	@GET
@@ -83,11 +84,9 @@ public class UsuarioResource {
 		return usuarioService.validarUsuario(usuario);
 	}
 	
-	@GET
+	@POST
 	@Path("/login")
-	public Usuario login(
-			@Parameter(required = false, name = "login") @QueryParam("login") String login,
-			@Parameter(required = false, name = "senha") @QueryParam("senha") String senha) {
-		return usuarioService.login(login, senha);
+	public Usuario login(Usuario usuario) {
+		return usuarioService.login(usuario);
 	}
 }
