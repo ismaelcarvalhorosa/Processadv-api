@@ -15,8 +15,10 @@ import javax.validation.constraints.Size;
 
 import br.inf.lucas.royalrangers.api.cidade.Cidade;
 import br.inf.lucas.royalrangers.api.comandante.Comandante;
+import br.inf.lucas.royalrangers.api.coordenador.Coordenador;
 import br.inf.lucas.royalrangers.api.distrito.Distrito;
 import br.inf.lucas.royalrangers.api.igreja.Igreja;
+import br.inf.lucas.royalrangers.api.usuario.Usuario;
 
 @Entity
 @Table(name="destacamento", schema="public")
@@ -61,6 +63,10 @@ public class Destacamento {
 	@NotNull
 	@JoinColumn(name = "IGRCODIGO")
 	private Igreja igreja;
+	
+	@ManyToOne
+	@JoinColumn(name = "COOCODIGO")
+	private Coordenador coordenador;
 
 	@Column(name = "DESCEP")
 	@Size(max = 8)
@@ -96,9 +102,9 @@ public class Destacamento {
 	@NotNull
 	private Date desdatalt;
 	
-	@Column(name = "USUCODIGO")
-	@NotNull
-	private int usucodigo;
+	@ManyToOne
+	@JoinColumn(name = "USUCODIGO")
+	private Usuario usuario;
 
 	public Long getDescodigo() {
 		return descodigo;
@@ -236,12 +242,12 @@ public class Destacamento {
 		this.desdatalt = desdatalt;
 	}
 
-	public int getUsucodigo() {
-		return usucodigo;
+	public Usuario getUsuario() {
+		return usuario;
 	}
 
-	public void setUsucodigo(int usucodigo) {
-		this.usucodigo = usucodigo;
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 	
 
@@ -252,7 +258,12 @@ public class Destacamento {
 	public void setIgreja(Igreja igreja) {
 		this.igreja = igreja;
 	}
-	/*@ManyToOne
-	@JoinColumn(name = "USUCODIGO")
-	private Usuario usuario;*/
+
+	public Coordenador getCoordenador() {
+		return coordenador;
+	}
+
+	public void setCoordenador(Coordenador coordenador) {
+		this.coordenador = coordenador;
+	}
 }

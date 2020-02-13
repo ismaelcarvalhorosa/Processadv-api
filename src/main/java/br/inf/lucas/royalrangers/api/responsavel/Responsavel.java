@@ -61,6 +61,10 @@ public class Responsavel {
 	@Size(max = 100)
 	private String rescomplemento;
 	
+	@Column(name = "RESCEP")
+	@Size(max = 8)
+	private String rescep;
+	
 	@Column(name = "RESDATINI")
 	@NotNull
 	private Date resdatini;
@@ -68,8 +72,9 @@ public class Responsavel {
 	@Column(name = "RESDATFIM")
 	private Date resdatfim;
 	
-	@Column(name = "USUCODIGO")
-	private int usucodigo;
+	@ManyToOne
+	@JoinColumn(name = "USUCODIGO")
+	private Usuario usuario;
 	
 	@Column(name = "RESDATALT")
 	@NotNull
@@ -155,12 +160,12 @@ public class Responsavel {
 		this.resdatfim = resdatfim;
 	}
 
-	public int getUsucodigo() {
-		return usucodigo;
+	public Usuario getUsuario() {
+		return usuario;
 	}
 
-	public void setUsucodigo(int usucodigo) {
-		this.usucodigo = usucodigo;
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 	public Date getResdatalt() {
@@ -169,5 +174,13 @@ public class Responsavel {
 
 	public void setResdatalt(Date resdatalt) {
 		this.resdatalt = resdatalt;
+	}
+
+	public String getRescep() {
+		return rescep;
+	}
+
+	public void setRescep(String rescep) {
+		this.rescep = rescep;
 	}
 }

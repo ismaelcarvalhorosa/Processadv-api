@@ -18,6 +18,7 @@ import br.inf.lucas.royalrangers.api.cidade.Cidade;
 import br.inf.lucas.royalrangers.api.destacamento.Destacamento;
 import br.inf.lucas.royalrangers.api.pessoa.Pessoa;
 import br.inf.lucas.royalrangers.api.responsavel.Responsavel;
+import br.inf.lucas.royalrangers.api.usuario.Usuario;
 
 @Entity
 @Table(name="explorador", schema="public")
@@ -65,6 +66,10 @@ public class Explorador {
 	@Size(max = 100)
 	private String expcomplemento;
 	
+	@Column(name = "EXPCEP")
+	@Size(max = 8)
+	private String expcep;
+	
 	@Column(name = "EXPDATINI")
 	@NotNull
 	private Date expdatini;
@@ -72,8 +77,9 @@ public class Explorador {
 	@Column(name = "EXPDATFIM")
 	private Date expdatfim;
 	
-	@Column(name = "USUCODIGO")
-	private int usucodigo;
+	@ManyToOne
+	@JoinColumn(name = "USUCODIGO")
+	private Usuario usuario;
 	
 	@Column(name = "EXPDATALT")
 	@NotNull
@@ -167,12 +173,12 @@ public class Explorador {
 		this.expdatfim = expdatfim;
 	}
 
-	public int getUsucodigo() {
-		return usucodigo;
+	public Usuario getUsuario() {
+		return usuario;
 	}
 
-	public void setUsucodigo(int usucodigo) {
-		this.usucodigo = usucodigo;
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 	public Date getExpdatalt() {
@@ -181,5 +187,13 @@ public class Explorador {
 
 	public void setExpdatalt(Date expdatalt) {
 		this.expdatalt = expdatalt;
+	}
+
+	public String getExpcep() {
+		return expcep;
+	}
+
+	public void setExpcep(String expcep) {
+		this.expcep = expcep;
 	}
 }

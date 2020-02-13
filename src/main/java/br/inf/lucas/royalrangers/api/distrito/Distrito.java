@@ -15,6 +15,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import br.inf.lucas.royalrangers.api.regiao.Regiao;
 //import br.inf.lucas.royalrangers.api.usuario.Usuario;
+import br.inf.lucas.royalrangers.api.usuario.Usuario;
 
 @Entity
 @Table(name="distrito", schema="public")
@@ -39,9 +40,9 @@ public class Distrito {
 	@NotNull
 	private Date disdatalt;
 	
-	@Column(name = "USUCODIGO")
-	@NotNull
-	private int usucodigo;
+	@ManyToOne
+	@JoinColumn(name = "USUCODIGO")
+	private Usuario usuario;
 
 	public Long getDiscodigo() {
 		return discodigo;
@@ -75,12 +76,12 @@ public class Distrito {
 		this.disdatalt = disdatalt;
 	}
 
-	public int getUsucodigo() {
-		return usucodigo;
+	public Usuario getUsuario() {
+		return usuario;
 	}
 
-	public void setUsucodigo(int usucodigo) {
-		this.usucodigo = usucodigo;
+	public void setUsucodigo(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 	/*public Usuario getUsuario() {

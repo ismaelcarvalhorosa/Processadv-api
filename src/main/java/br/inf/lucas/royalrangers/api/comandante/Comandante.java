@@ -57,6 +57,10 @@ public class Comandante {
 	@Size(max = 100)
 	private String comcomplemento;
 	
+	@Column(name = "COMCEP")
+	@Size(max = 8)
+	private String comcep;
+	
 	@ManyToOne
 	@JoinColumn(name = "DESCODIGO")
 	@NotNull
@@ -73,8 +77,9 @@ public class Comandante {
 	@Column(name = "COMDATFIM")
 	private Date comdatfim;
 	
-	@Column(name = "USUCODIGO")
-	private int usucodigo;
+	@ManyToOne
+	@JoinColumn(name = "USUCODIGO")
+	private Usuario usuario;
 	
 	@Column(name = "COMDATALT")
 	@NotNull
@@ -168,12 +173,12 @@ public class Comandante {
 		this.comdatfim = comdatfim;
 	}
 
-	public int getUsucodigo() {
-		return usucodigo;
+	public Usuario getusuario() {
+		return usuario;
 	}
 
-	public void setUsucodigo(int usucodigo) {
-		this.usucodigo = usucodigo;
+	public void setusuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 	public Date getComdatalt() {
@@ -182,5 +187,13 @@ public class Comandante {
 
 	public void setComdatalt(Date comdatalt) {
 		this.comdatalt = comdatalt;
+	}
+
+	public String getComcep() {
+		return comcep;
+	}
+
+	public void setComcep(String comcep) {
+		this.comcep = comcep;
 	}
 }

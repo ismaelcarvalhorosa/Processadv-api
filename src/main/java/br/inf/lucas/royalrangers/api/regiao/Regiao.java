@@ -14,6 +14,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import br.inf.lucas.royalrangers.api.usuario.Usuario;
+
 //import br.inf.lucas.royalrangers.api.usuario.Usuario;
 
 @Entity
@@ -35,9 +37,9 @@ public class Regiao {
 	@NotNull
 	private Date regdatalt;
 	
-	@Column(name = "USUCODIGO")
-	@NotNull
-	private int usucodigo;
+	@ManyToOne
+	@JoinColumn(name = "USUCODIGO")
+	private Usuario usuario;
 
 	public Long getRegcodigo() {
 		return regcodigo;
@@ -63,19 +65,11 @@ public class Regiao {
 		this.regdatalt = regdatalt;
 	}
 
-	public int getUsucodigo() {
-		return usucodigo;
-	}
-
-	public void setUsucodigo(int usucodigo) {
-		this.usucodigo = usucodigo;
-	}
-
-	/*public Usuario getUsuario() {
+	public Usuario getUsuario() {
 		return usuario;
 	}
 
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
-	}*/
+	}
 }

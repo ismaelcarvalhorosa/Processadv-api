@@ -79,8 +79,9 @@ public class Igreja {
 	@JoinColumn(name = "CIDCODIGO")
 	private Cidade cidade;
 	
-	@Column(name = "USUCODIGO")
-	private int usucodigo;
+	@ManyToOne
+	@JoinColumn(name = "USUCODIGO")
+	private Usuario usuario;
 	
 	@Column(name = "IGRDATALT")
 	private Date igrdatalt;
@@ -197,12 +198,12 @@ public class Igreja {
 		this.cidade = cidade;
 	}
 
-	public int getUsucodigo() {
-		return usucodigo;
+	public Usuario getUsuario() {
+		return usuario;
 	}
 
-	public void setUsucodigo(int usucodigo) {
-		this.usucodigo = usucodigo;
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 	public Date getIgrdatalt() {

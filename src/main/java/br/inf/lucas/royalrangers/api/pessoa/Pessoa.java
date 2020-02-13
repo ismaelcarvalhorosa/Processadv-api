@@ -54,8 +54,9 @@ public class Pessoa {
 	@Size(max = 100)
 	private String pesemail;
 	
-	@Column(name = "USUCODIGO")
-	private int usucodigo;
+	@ManyToOne
+	@JoinColumn(name = "USUCODIGO")
+	private Usuario usuario;
 	
 	@Column(name = "PESDATALT")
 	@NotNull
@@ -125,12 +126,12 @@ public class Pessoa {
 		this.pesemail = pesemail;
 	}
 
-	public int getUsucodigo() {
-		return usucodigo;
+	public Usuario getUsuario() {
+		return usuario;
 	}
 
-	public void setUsucodigo(int usucodigo) {
-		this.usucodigo = usucodigo;
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 	public Date getPesdatalt() {
