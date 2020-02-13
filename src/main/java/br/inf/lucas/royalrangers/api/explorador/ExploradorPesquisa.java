@@ -64,4 +64,22 @@ public class ExploradorPesquisa {
 					.page(pagina)
 					.getResultList();
 		}
+	
+public PaginationResult<Explorador> ExploradoresByResponsavel(Integer pagina, String responsavel) {
+		
+		return new QueryBuilder(em)
+				.select(Explorador.class)
+				.where(w -> {
+					if (responsavel!=null && !responsavel.isEmpty()) {
+						try {
+							Long id = Long.valueOf(responsavel);
+							w.field("responsavel.rescodigo").eq(id);
+						} catch (Exception e) {
+						}
+					}
+				})
+				.pagination()
+					.page(pagina)
+					.getResultList();
+		}
 	}

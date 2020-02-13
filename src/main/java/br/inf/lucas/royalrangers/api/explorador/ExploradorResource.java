@@ -74,6 +74,14 @@ public class ExploradorResource {
 	}
 	
 	@GET
+	@Path("/ExploradoresByResponsavel")
+	public PaginationResult<Explorador> ExploradoresByResponsavel(
+			@QueryParam("pagina") Integer pagina,
+			@Parameter(required = false, name = "responsavel") @QueryParam("responsavel") String responsavel) {
+		return exploradorPesquisa.ExploradoresByResponsavel(pagina, responsavel);
+	}
+	
+	@GET
 	@Path("/validarexclusao")
 	public Mensagem validarExclusao(
 			@Parameter(required = false, name = "codigo") @QueryParam("codigo") String codigo) {
