@@ -7,7 +7,6 @@ CREATE TABLE public.usuario
     usudatalt date NOT NULL,
     usucodigo integer NOT NULL,
     usupermissao smallint NOT NULL,
-    descodigo integer,
     usuemail character varying(100) COLLATE pg_catalog."default",
     CONSTRAINT usuario_pkey PRIMARY KEY (usucodigo)
 )

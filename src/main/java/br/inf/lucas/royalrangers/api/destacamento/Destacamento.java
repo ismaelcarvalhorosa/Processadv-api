@@ -3,6 +3,7 @@ import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -51,20 +52,20 @@ public class Destacamento {
 	@Size(max = 20)
 	private String descomplemento;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "CIDCODIGO")
 	private Cidade cidade;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "DISCODIGO")
 	private Distrito distrito;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@NotNull
 	@JoinColumn(name = "IGRCODIGO")
 	private Igreja igreja;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "COOCODIGO")
 	private Coordenador coordenador;
 
@@ -102,7 +103,7 @@ public class Destacamento {
 	@NotNull
 	private Date desdatalt;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "USUCODIGO")
 	private Usuario usuario;
 

@@ -129,6 +129,8 @@ public class UsuarioService {
 		Mensagem msg = new Mensagem();
 		msg.mensagem = "";
 		String retorno = "";
+		if ((usuario.getUsulogin()=="teste") && (usuario.getUsusenha()=="teste"))
+			msg.mensagem = msg.mensagem+" Escolha outro login/senha!";
 		retorno = validarCampo("nome", "usunome", usuario.getUsunome(), usuario.getUsucodigo().intValue());
 		if (retorno != "") msg.mensagem = msg.mensagem+""+retorno;
 		retorno = validarCampo("login", "usulogin", usuario.getUsulogin(), usuario.getUsucodigo().intValue());
