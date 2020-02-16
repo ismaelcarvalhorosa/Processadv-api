@@ -1,5 +1,6 @@
 package br.inf.lucas.royalrangers.api.explorador;
-import java.sql.Date;
+
+import java.util.logging.Logger;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -8,13 +9,15 @@ import javax.persistence.EntityManager;
 import com.ordnaelmedeiros.jpafluidselect.querybuilder.QueryBuilder;
 import com.ordnaelmedeiros.jpafluidselect.querybuilder.select.pagination.PaginationResult;
 
-import br.inf.lucas.royalrangers.api.comandante.Comandante;
-
 @RequestScoped
 public class ExploradorPesquisa {
 
 	@Inject
 	EntityManager em;
+	
+	private void logar(String mensagem) {
+		Logger.getLogger(mensagem);
+	}
 	
 	public PaginationResult<Explorador> executar(Integer pagina, String valor, String dest, String cidade, String responsavel) {
 		
@@ -29,6 +32,7 @@ public class ExploradorPesquisa {
 							try {
 								w.field("pessoa.pesnome").ilike("%"+valor+"%");
 							} catch (Exception e2) {
+								logar(e2.getMessage());
 							}
 						}
 					}
@@ -39,6 +43,7 @@ public class ExploradorPesquisa {
 								w.field("destacamento.descodigo").eq(des);
 							}
 						} catch (Exception e) {
+							logar(e.getMessage());
 						}
 					}
 					if (cidade!=null && !cidade.isEmpty()) {
@@ -48,6 +53,7 @@ public class ExploradorPesquisa {
 								w.field("cidade.cidcodigo").eq(cid);
 							}
 						} catch (Exception e) {
+							logar(e.getMessage());
 						}
 					}
 					if (responsavel!=null && !responsavel.isEmpty()) {
@@ -57,6 +63,7 @@ public class ExploradorPesquisa {
 								w.field("responsavel.rescodigo").eq(res);
 							}
 						} catch (Exception e) {
+							logar(e.getMessage());
 						}
 					}
 				})
@@ -65,7 +72,7 @@ public class ExploradorPesquisa {
 					.getResultList();
 		}
 	
-public PaginationResult<Explorador> ExploradoresByResponsavel(Integer pagina, String responsavel) {
+public PaginationResult<Explorador> exploradoresByResponsavel(Integer pagina, String responsavel) {
 		
 		return new QueryBuilder(em)
 				.select(Explorador.class)
@@ -75,6 +82,7 @@ public PaginationResult<Explorador> ExploradoresByResponsavel(Integer pagina, St
 							Long id = Long.valueOf(responsavel);
 							w.field("responsavel.rescodigo").eq(id);
 						} catch (Exception e) {
+							logar(e.getMessage());
 						}
 					}
 				})

@@ -1,20 +1,21 @@
 package br.inf.lucas.royalrangers.api.anuidade;
-import java.sql.Date;
+import java.util.logging.Logger;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-
 import com.ordnaelmedeiros.jpafluidselect.querybuilder.QueryBuilder;
 import com.ordnaelmedeiros.jpafluidselect.querybuilder.select.pagination.PaginationResult;
-
-import br.inf.lucas.royalrangers.api.comandante.Comandante;
 
 @RequestScoped
 public class AnuidadePesquisa {
 
 	@Inject
 	EntityManager em;
+	
+	private void logar(String mensagem) {
+		Logger.getLogger(mensagem);
+	}
 	
 	public PaginationResult<Anuidade> executar(Integer pagina, String valor, String dest, String explorador, String ano) {
 		
@@ -29,6 +30,7 @@ public class AnuidadePesquisa {
 							try {
 								w.field("explorador.pessoa.pesnome").ilike("%"+valor+"%");
 							} catch (Exception e2) {
+								logar(e2.getMessage());
 							}
 						}
 					}
@@ -39,6 +41,7 @@ public class AnuidadePesquisa {
 								w.field("destacamento.descodigo").eq(des);
 							}
 						} catch (Exception e) {
+							logar(e.getMessage());
 						}
 					}
 					if (explorador!=null && !explorador.isEmpty()) {
@@ -48,6 +51,7 @@ public class AnuidadePesquisa {
 								w.field("explorador.expcodigo").eq(exp);
 							}
 						} catch (Exception e) {
+							logar(e.getMessage());
 						}
 					}
 					if (ano!=null && !ano.isEmpty()) {
@@ -57,6 +61,7 @@ public class AnuidadePesquisa {
 								w.field("anuano").eq(a);
 							}
 						} catch (Exception e) {
+							logar(e.getMessage());
 						}
 					}
 				})

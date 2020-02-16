@@ -9,7 +9,6 @@ import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
-import javax.validation.Valid;
 import javax.validation.Validator;
 
 import org.hibernate.Query;
@@ -18,9 +17,7 @@ import org.hibernate.type.StringType;
 
 import java.sql.Date;
 import com.ordnaelmedeiros.jpafluidselect.querybuilder.QueryBuilder;
-
 import br.inf.lucas.royalrangers.api.Mensagem;
-import br.inf.lucas.royalrangers.api.comandante.Comandante;
 
 @RequestScoped
 public class PessoaService {
@@ -96,17 +93,17 @@ public class PessoaService {
 		    	      " where "+row[3].toString()+"="+codigo+" limit 1";
 			qr = session.createSQLQuery(sql);
 			if (!qr.list().isEmpty()) {
-				msg.mensagem = "Há vínculos dessa pessoa com outros cadastros no sistema";
+				msg.setMensagem("Há vínculos dessa pessoa com outros cadastros no sistema");
 				return msg;
 			}
 		}
-		msg.mensagem = "";
+		msg.setMensagem("");
 		return msg;
 	}
 	
 	public Mensagem validarPessoa(Pessoa pessoa) {
 		Mensagem msg = new Mensagem();
-		msg.mensagem = "";
+		msg.setMensagem("");
 		Session session = this.em.unwrap(Session.class);
 		String sql = "select * from pessoa where pescpf = '"+pessoa.getPescpf().toUpperCase()+"'";
 		if (pessoa.getPescodigo().intValue()>0)
@@ -114,7 +111,7 @@ public class PessoaService {
 		Query qr = session.createSQLQuery(sql).addEntity(Pessoa.class);
 		List<Pessoa> lista = qr.list();
 		if (!lista.isEmpty())
-			msg.mensagem += "Já existe uma pessoa informada com este CPF!";
+			msg.setMensagem("Já existe uma pessoa informada com este CPF!");
 		return msg;
 	}
 }

@@ -9,7 +9,6 @@ import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
-import javax.validation.Valid;
 import javax.validation.Validator;
 
 import org.hibernate.Query;
@@ -20,8 +19,6 @@ import java.sql.Date;
 import com.ordnaelmedeiros.jpafluidselect.querybuilder.QueryBuilder;
 
 import br.inf.lucas.royalrangers.api.Mensagem;
-import br.inf.lucas.royalrangers.api.explorador.Explorador;
-import br.inf.lucas.royalrangers.api.regiao.Regiao;
 
 @RequestScoped
 public class ComandanteService {
@@ -71,7 +68,6 @@ public class ComandanteService {
 	}
 	
 	public Mensagem validarExclusao(String codigo) {
-		//anuidade em outros cadastros
 		Mensagem msg = new Mensagem();
 		Session session = this.em.unwrap(Session.class);
 		String sql = "SELECT distinct tc.table_schema, tc.constraint_name, tc.table_name, kcu.column_name, "+
@@ -96,19 +92,18 @@ public class ComandanteService {
 			sql = "SELECT * FROM "+row[2].toString()+
 		    	      " where "+row[3].toString()+"="+codigo+" limit 1";
 			qr = session.createSQLQuery(sql);
-			System.out.println(sql);
 			if (!qr.list().isEmpty()) {
-				msg.mensagem = "Há vínculos desse comandante com outros cadastros no sistema";
+				msg.setMensagem("Há vínculos desse comandante com outros cadastros no sistema");
 				return msg;
 			}
 		}
-		msg.mensagem = "";
+		msg.setMensagem("");
 		return msg;
 	}
 	
 	public Mensagem validarComandante(Comandante comandante) {
 		Mensagem msg = new Mensagem();
-		msg.mensagem = "";
+		msg.setMensagem("");
 		Session session = this.em.unwrap(Session.class);
 		String sql = "select * from comandante where pescodigo = "+comandante.getPessoa().getPescodigo().toString()+"";
 		if (comandante.getComcodigo().intValue()>0)
@@ -116,7 +111,7 @@ public class ComandanteService {
 		Query qr = session.createSQLQuery(sql).addEntity(Comandante.class);
 		List<Comandante> lista = qr.list();
 		if (!lista.isEmpty())
-			msg.mensagem += "Já existe um comandante para a pessoa informada!";
+			msg.setMensagem(msg.getMensagem()+"Já existe um comandante para a pessoa informada!");
 		return msg;
 	}
 }

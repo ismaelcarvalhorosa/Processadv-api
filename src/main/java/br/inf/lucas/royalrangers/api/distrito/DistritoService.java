@@ -10,7 +10,6 @@ import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
-import javax.validation.Valid;
 import javax.validation.Validator;
 
 import org.hibernate.Query;
@@ -68,6 +67,10 @@ public class DistritoService {
 		em.remove(busca(id));
 	}
 	
+	private void gravaMensagem(Mensagem m, String t) {
+		m.setMensagem(t);
+	}
+	
 	public Mensagem validarExclusao(String codigo) {
 		//distrito em outros cadastros
 		Mensagem msg = new Mensagem();
@@ -95,11 +98,11 @@ public class DistritoService {
 		    	      " where "+row[3].toString()+"="+codigo+" limit 1";
 			qr = session.createSQLQuery(sql);
 			if (!qr.list().isEmpty()) {
-				msg.mensagem = "Há vínculos desse distrito com outros cadastros no sistema";
+				gravaMensagem(msg, "Há vínculos desse distrito com outros cadastros no sistema");
 				return msg;
 			}
 		}
-		msg.mensagem = "";
+		gravaMensagem(msg, "");
 		return msg;
 	}
 	
@@ -111,12 +114,10 @@ public class DistritoService {
 			sql += " and discodigo<>"+String.valueOf(distrito.getDiscodigo().intValue());
 		Query qr = session.createSQLQuery(sql).addEntity(Distrito.class);
 		List<Distrito> lista = qr.list();
-		qr = null;
-		session = null;
 		if (!lista.isEmpty())
-			msg.mensagem = "Já existe um distrito com o nome informado!";
+			gravaMensagem(msg, "Já existe um distrito com o nome informado!");
 		else
-			msg.mensagem = "";
+			gravaMensagem(msg, "");
 		return msg;
 	}
 }

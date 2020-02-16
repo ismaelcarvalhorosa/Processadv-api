@@ -10,7 +10,6 @@ import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
-import javax.validation.Valid;
 import javax.validation.Validator;
 
 import org.hibernate.Query;
@@ -20,7 +19,6 @@ import org.hibernate.type.StringType;
 import com.ordnaelmedeiros.jpafluidselect.querybuilder.QueryBuilder;
 
 import br.inf.lucas.royalrangers.api.Mensagem;
-import br.inf.lucas.royalrangers.api.usuario.Usuario;
 
 @RequestScoped
 public class DestacamentoService {
@@ -96,11 +94,11 @@ public class DestacamentoService {
 		    	      " where "+row[3].toString()+"="+codigo+" limit 1";
 			qr = session.createSQLQuery(sql);
 			if (!qr.list().isEmpty()) {
-				msg.mensagem = "Há vínculos desse destacamento com outros cadastros no sistema";
+				msg.setMensagem("Há vínculos desse destacamento com outros cadastros no sistema");
 				return msg;
 			}
 		}
-		msg.mensagem = "";
+		msg.setMensagem("");
 		return msg;
 	}
 	
@@ -112,12 +110,10 @@ public class DestacamentoService {
 			sql += " and descodigo<>"+String.valueOf(destacamento.getDescodigo().intValue());
 		Query qr = session.createSQLQuery(sql).addEntity(Destacamento.class);
 		List<Destacamento> lista = qr.list();
-		qr = null;
-		session = null;
 		if (!lista.isEmpty())
-			msg.mensagem = "Já existe um destacamento com o nome informado!";
+			msg.setMensagem("Já existe um destacamento com o nome informado!");
 		else
-			msg.mensagem = "";
+			msg.setMensagem("");
 		return msg;
 	}
 }

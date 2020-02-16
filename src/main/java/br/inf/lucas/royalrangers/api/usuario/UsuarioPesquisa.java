@@ -1,4 +1,6 @@
 package br.inf.lucas.royalrangers.api.usuario;
+import java.util.logging.Logger;
+
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -32,6 +34,7 @@ public class UsuarioPesquisa {
 							w.field("destacamento.descodigo").eq(des);
 						}
 					} catch (Exception e) {
+						Logger.getLogger(e.getMessage());
 					}
 				}
 			})

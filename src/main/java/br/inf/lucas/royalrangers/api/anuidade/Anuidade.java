@@ -12,11 +12,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 import br.inf.lucas.royalrangers.api.destacamento.Destacamento;
 import br.inf.lucas.royalrangers.api.explorador.Explorador;
-import br.inf.lucas.royalrangers.api.usuario.Usuario;
 
 @Entity
 @Table(name="anuidade", schema="public")

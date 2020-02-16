@@ -9,18 +9,14 @@ import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
-import javax.validation.Valid;
 import javax.validation.Validator;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.type.StringType;
-
 import java.sql.Date;
 import com.ordnaelmedeiros.jpafluidselect.querybuilder.QueryBuilder;
-
 import br.inf.lucas.royalrangers.api.Mensagem;
-import br.inf.lucas.royalrangers.api.cidade.Cidade;
 
 @RequestScoped
 public class UsuarioService {
@@ -96,11 +92,11 @@ public class UsuarioService {
 		    	      " where "+row[3].toString()+"="+codigo+" limit 1";
 			qr = session.createSQLQuery(sql);
 			if (!qr.list().isEmpty()) {
-				msg.mensagem = "Há vínculos desse usuário com outros cadastros no sistema";
+				msg.setMensagem("Há vínculos desse usuário com outros cadastros no sistema");
 				return msg;
 			}
 		}
-		msg.mensagem = "";
+		msg.setMensagem("");
 		return msg;
 	}
 	
@@ -108,35 +104,31 @@ public class UsuarioService {
 		Session session = this.em.unwrap(Session.class);
 		String sql = "select * from usuario where upper("+campo+") = '"+valor.toUpperCase()+"'";
 		if (codigo>0)
-			sql += " and usucodigo<>"+String.valueOf(codigo);
+			sql += " and usucodigo<>"+codigo;
 		Query qr = session.createSQLQuery(sql).addEntity(Usuario.class);
 		List<Usuario> lista = qr.list();
-		qr = null;
-		session = null;
 		if (!lista.isEmpty())
 		{
-			lista = null;
 			return "Esse " + descricao + " já está em uso!";
 		}
 		else
 		{
-			lista = null;
 			return "";
 		}
 	}
 	
 	public Mensagem validarUsuario(Usuario usuario) {
 		Mensagem msg = new Mensagem();
-		msg.mensagem = "";
+		msg.setMensagem("");
 		String retorno = "";
 		if ((usuario.getUsulogin()=="teste") && (usuario.getUsusenha()=="teste"))
-			msg.mensagem = msg.mensagem+" Escolha outro login/senha!";
+			msg.setMensagem(msg.getMensagem()+" Escolha outro login/senha!");
 		retorno = validarCampo("nome", "usunome", usuario.getUsunome(), usuario.getUsucodigo().intValue());
-		if (retorno != "") msg.mensagem = msg.mensagem+""+retorno;
+		if (retorno != "") msg.setMensagem(msg.getMensagem()+retorno);
 		retorno = validarCampo("login", "usulogin", usuario.getUsulogin(), usuario.getUsucodigo().intValue());
-		if (retorno != "") msg.mensagem = msg.mensagem+""+retorno;
+		if (retorno != "") msg.setMensagem(msg.getMensagem()+retorno);
 		retorno = validarCampo("e-mail", "usuemail", usuario.getUsuemail(), usuario.getUsucodigo().intValue());
-		if (retorno != "") msg.mensagem = msg.mensagem+""+retorno;
+		if (retorno != "") msg.setMensagem(msg.getMensagem()+retorno);
 		return msg;
 	}
 	
@@ -148,9 +140,6 @@ public class UsuarioService {
 		List<Usuario> lista = qr.list();
 		if (!lista.isEmpty())
 			usuario = lista.get(0);
-		lista = null;
-		qr = null;
-		session = null;
 		return usuario;
 	}
 }

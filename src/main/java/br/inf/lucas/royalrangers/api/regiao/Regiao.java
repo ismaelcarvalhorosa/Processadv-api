@@ -16,7 +16,6 @@ import javax.validation.constraints.Size;
 
 import br.inf.lucas.royalrangers.api.usuario.Usuario;
 
-//import br.inf.lucas.royalrangers.api.usuario.Usuario;
 
 @Entity
 @Table(name="regiao", schema="public")

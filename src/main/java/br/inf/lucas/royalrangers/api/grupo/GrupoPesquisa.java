@@ -1,5 +1,7 @@
 package br.inf.lucas.royalrangers.api.grupo;
 
+import java.util.logging.Logger;
+
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -26,6 +28,7 @@ public class GrupoPesquisa {
 						try {
 							w.field(Grupo_.grunome).ilike("%"+valor+"%");
 						} catch (Exception e2) {
+							Logger.getLogger(e2.getMessage());
 						}
 					}
 				}

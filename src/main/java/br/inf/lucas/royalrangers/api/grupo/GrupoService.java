@@ -17,9 +17,7 @@ import org.hibernate.Session;
 import org.hibernate.type.StringType;
 
 import com.ordnaelmedeiros.jpafluidselect.querybuilder.QueryBuilder;
-
 import br.inf.lucas.royalrangers.api.Mensagem;
-import br.inf.lucas.royalrangers.api.regiao.Regiao;
 
 @RequestScoped
 public class GrupoService {
@@ -91,11 +89,11 @@ public class GrupoService {
 		    	      " where "+row[3].toString()+"="+codigo+" limit 1";
 			qr = session.createSQLQuery(sql);
 			if (!qr.list().isEmpty()) {
-				msg.mensagem = "Há vínculos desse grupo com outros cadastros no sistema";
+				msg.setMensagem("Há vínculos desse grupo com outros cadastros no sistema");
 				return msg;
 			}
 		}
-		msg.mensagem = "";
+		msg.setMensagem("");
 		return msg;
 	}
 	
@@ -107,12 +105,10 @@ public class GrupoService {
 			sql += " and grucodigo<>"+String.valueOf(grupo.getGrucodigo().intValue());
 		Query qr = session.createSQLQuery(sql).addEntity(Grupo.class);
 		List<Grupo> lista = qr.list();
-		qr = null;
-		session = null;
 		if (!lista.isEmpty())
-			msg.mensagem = "Já existe um grupo com o nome informado!";
+			msg.setMensagem("Já existe um grupo com o nome informado!");
 		else
-			msg.mensagem = "";
+			msg.setMensagem("");
 		return msg;
 	}
 }

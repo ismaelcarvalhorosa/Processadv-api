@@ -8,7 +8,6 @@ import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
-import javax.validation.Valid;
 import javax.validation.Validator;
 
 import org.hibernate.Query;
@@ -19,7 +18,6 @@ import java.sql.Date;
 import com.ordnaelmedeiros.jpafluidselect.querybuilder.QueryBuilder;
 
 import br.inf.lucas.royalrangers.api.Mensagem;
-import br.inf.lucas.royalrangers.api.regiao.Regiao;
 
 @RequestScoped
 public class IgrejaService {
@@ -95,11 +93,11 @@ public class IgrejaService {
 		    	      " where "+row[3].toString()+"="+codigo+" limit 1";
 			qr = session.createSQLQuery(sql);
 			if (!qr.list().isEmpty()) {
-				msg.mensagem = "Há vínculos dessa igreja com outros cadastros no sistema";
+				msg.setMensagem("Há vínculos dessa igreja com outros cadastros no sistema");
 				return msg;
 			}
 		}
-		msg.mensagem = "";
+		msg.setMensagem("");
 		return msg;
 	}
 	
@@ -111,12 +109,10 @@ public class IgrejaService {
 			sql += " and igrcodigo<>"+String.valueOf(igreja.getIgrcodigo().intValue());
 		Query qr = session.createSQLQuery(sql).addEntity(Igreja.class);
 		List<Igreja> lista = qr.list();
-		qr = null;
-		session = null;
 		if (!lista.isEmpty())
-			msg.mensagem = "Já existe uma igreja com o nome informado!";
+			msg.setMensagem("Já existe uma igreja com o nome informado!");
 		else
-			msg.mensagem = "";
+			msg.setMensagem("");
 		return msg;
 	}
 }

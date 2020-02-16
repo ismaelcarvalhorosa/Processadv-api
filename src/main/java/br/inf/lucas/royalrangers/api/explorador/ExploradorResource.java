@@ -20,7 +20,6 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import com.ordnaelmedeiros.jpafluidselect.querybuilder.select.pagination.PaginationResult;
 
 import br.inf.lucas.royalrangers.api.Mensagem;
-import br.inf.lucas.royalrangers.api.regiao.Regiao;
 
 @Tag(name = "Explorador")
 @Path("/explorador")
@@ -74,11 +73,11 @@ public class ExploradorResource {
 	}
 	
 	@GET
-	@Path("/ExploradoresByResponsavel")
-	public PaginationResult<Explorador> ExploradoresByResponsavel(
+	@Path("/exploradoresByResponsavel")
+	public PaginationResult<Explorador> exploradoresByResponsavel(
 			@QueryParam("pagina") Integer pagina,
 			@Parameter(required = false, name = "responsavel") @QueryParam("responsavel") String responsavel) {
-		return exploradorPesquisa.ExploradoresByResponsavel(pagina, responsavel);
+		return exploradorPesquisa.exploradoresByResponsavel(pagina, responsavel);
 	}
 	
 	@GET

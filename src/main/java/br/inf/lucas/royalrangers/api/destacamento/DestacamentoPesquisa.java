@@ -1,6 +1,5 @@
 package br.inf.lucas.royalrangers.api.destacamento;
-
-import java.sql.Date;
+import java.util.logging.Logger;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -9,13 +8,15 @@ import javax.persistence.EntityManager;
 import com.ordnaelmedeiros.jpafluidselect.querybuilder.QueryBuilder;
 import com.ordnaelmedeiros.jpafluidselect.querybuilder.select.pagination.PaginationResult;
 
-import br.inf.lucas.royalrangers.api.comandante.Comandante;
-
 @RequestScoped
 public class DestacamentoPesquisa {
 
 	@Inject
 	EntityManager em;
+	
+	private void logar(String mensagem) {
+		Logger.getLogger(mensagem);
+	}
 	
 	public PaginationResult<Destacamento> executar(Integer pagina, String valor, String distrito, String cidade, String igreja) {
 		
@@ -30,6 +31,7 @@ public class DestacamentoPesquisa {
 							try {
 								w.field("desnome").ilike("%"+valor+"%");
 							} catch (Exception e2) {
+								logar(e2.getMessage());
 							}
 						}
 					}
@@ -40,6 +42,7 @@ public class DestacamentoPesquisa {
 								w.field("distrito.discodigo").eq(dis);
 							}
 						} catch (Exception e) {
+							logar(e.getMessage());
 						}
 					}
 					if (cidade!=null && !cidade.isEmpty()) {
@@ -49,6 +52,7 @@ public class DestacamentoPesquisa {
 								w.field("cidade.cidcodigo").eq(cid);
 							}
 						} catch (Exception e) {
+							logar(e.getMessage());
 						}
 					}
 					if (igreja!=null && !igreja.isEmpty()) {
@@ -58,6 +62,7 @@ public class DestacamentoPesquisa {
 								w.field("igreja.igrcodigo").eq(igr);
 							}
 						} catch (Exception e) {
+							logar(e.getMessage());
 						}
 					}
 				})

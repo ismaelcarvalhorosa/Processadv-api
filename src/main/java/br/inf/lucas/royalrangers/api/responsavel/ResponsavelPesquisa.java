@@ -1,5 +1,5 @@
 package br.inf.lucas.royalrangers.api.responsavel;
-import java.sql.Date;
+import java.util.logging.Logger;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -8,13 +8,15 @@ import javax.persistence.EntityManager;
 import com.ordnaelmedeiros.jpafluidselect.querybuilder.QueryBuilder;
 import com.ordnaelmedeiros.jpafluidselect.querybuilder.select.pagination.PaginationResult;
 
-import br.inf.lucas.royalrangers.api.comandante.Comandante;
-
 @RequestScoped
 public class ResponsavelPesquisa {
 
 	@Inject
 	EntityManager em;
+	
+	private void logar(String mensagem) {
+		Logger.getLogger(mensagem);
+	}
 	
 	public PaginationResult<Responsavel> executar(Integer pagina, String valor, String dest, String cidade) {
 		
@@ -29,6 +31,7 @@ public class ResponsavelPesquisa {
 							try {
 								w.field("pessoa.pesnome").ilike("%"+valor+"%");
 							} catch (Exception e2) {
+								logar(e2.getMessage());
 							}
 						}
 					}
@@ -39,6 +42,7 @@ public class ResponsavelPesquisa {
 								w.field("destacamento.descodigo").eq(des);
 							}
 						} catch (Exception e) {
+							logar(e.getMessage());
 						}
 					}
 					if (cidade!=null && !cidade.isEmpty()) {
@@ -48,6 +52,7 @@ public class ResponsavelPesquisa {
 								w.field("cidade.cidcodigo").eq(cid);
 							}
 						} catch (Exception e) {
+							logar(e.getMessage());
 						}
 					}
 				})

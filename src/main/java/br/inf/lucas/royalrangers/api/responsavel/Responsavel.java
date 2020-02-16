@@ -16,7 +16,6 @@ import javax.validation.constraints.Size;
 
 import br.inf.lucas.royalrangers.api.cidade.Cidade;
 import br.inf.lucas.royalrangers.api.destacamento.Destacamento;
-import br.inf.lucas.royalrangers.api.grupo.Grupo;
 import br.inf.lucas.royalrangers.api.pessoa.Pessoa;
 import br.inf.lucas.royalrangers.api.usuario.Usuario;
 

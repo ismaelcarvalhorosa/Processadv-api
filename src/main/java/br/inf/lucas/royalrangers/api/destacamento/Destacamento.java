@@ -15,7 +15,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import br.inf.lucas.royalrangers.api.cidade.Cidade;
-import br.inf.lucas.royalrangers.api.comandante.Comandante;
 import br.inf.lucas.royalrangers.api.coordenador.Coordenador;
 import br.inf.lucas.royalrangers.api.distrito.Distrito;
 import br.inf.lucas.royalrangers.api.igreja.Igreja;

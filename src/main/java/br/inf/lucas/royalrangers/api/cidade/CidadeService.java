@@ -1,5 +1,4 @@
 package br.inf.lucas.royalrangers.api.cidade;
-
 import java.util.List;
 import java.util.Set;
 import javax.enterprise.context.RequestScoped;
@@ -11,7 +10,6 @@ import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 import javax.validation.Validator;
 
-import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.type.StringType;
@@ -72,14 +70,11 @@ public class CidadeService {
 		}
 		Query qr = session.createSQLQuery(sql).addEntity(Cidade.class);
 		List<Cidade> lista = qr.list();
-		qr = null;
-		session = null;
 		if (!lista.isEmpty()) {
-			lista = null;
-			msg.mensagem = "Há outra cidade cadastrada igual a essa!";
+			msg.setMensagem("Há outra cidade cadastrada igual a essa!");
 			return msg;
 		}
-		msg.mensagem = "";
+		msg.setMensagem("");
 		return msg;
 	}
 	
@@ -110,11 +105,11 @@ public class CidadeService {
 		    	      " where "+row[3].toString()+"="+codigo+" limit 1";
 			qr = session.createSQLQuery(sql);
 			if (!qr.list().isEmpty()) {
-				msg.mensagem = "Há vínculos dessa cidade com outros cadastros no sistema";
+				msg.setMensagem("Há vínculos dessa cidade com outros cadastros no sistema");
 				return msg;
 			}
 		}
-		msg.mensagem = "";
+		msg.setMensagem("");
 		return msg;
 	}
 }

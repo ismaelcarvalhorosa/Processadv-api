@@ -18,7 +18,6 @@ import com.ordnaelmedeiros.jpafluidselect.querybuilder.select.pagination.Paginat
 import br.inf.lucas.royalrangers.api.Mensagem;
 import br.inf.lucas.royalrangers.api.destacamento.Destacamento;
 import br.inf.lucas.royalrangers.api.destacamento.DestacamentoPesquisa;
-import br.inf.lucas.royalrangers.api.usuario.Usuario;
 
 @Tag(name = "Destacamento")
 @Path("/destacamento")

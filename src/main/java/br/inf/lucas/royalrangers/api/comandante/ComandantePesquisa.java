@@ -6,12 +6,17 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import com.ordnaelmedeiros.jpafluidselect.querybuilder.QueryBuilder;
 import com.ordnaelmedeiros.jpafluidselect.querybuilder.select.pagination.PaginationResult;
+import java.util.logging.*;
 
 @RequestScoped
 public class ComandantePesquisa {
 
 	@Inject
 	EntityManager em;
+	
+	private void logar(String mensagem) {
+		Logger.getLogger(mensagem);
+	}
 	
 	public PaginationResult<Comandante> executar(Integer pagina, String valor, String dest, String cidade, String grupo, String situacao) {
 		
@@ -26,6 +31,7 @@ public class ComandantePesquisa {
 						try {
 							w.field("pessoa.pesnome").ilike("%"+valor+"%");
 						} catch (Exception e2) {
+							logar(e2.getMessage());
 						}
 					}
 				}
@@ -36,6 +42,7 @@ public class ComandantePesquisa {
 							w.field("destacamento.descodigo").eq(des);
 						}
 					} catch (Exception e) {
+						logar(e.getMessage());
 					}
 				}
 				if (cidade!=null && !cidade.isEmpty()) {
@@ -45,6 +52,7 @@ public class ComandantePesquisa {
 							w.field("cidade.cidcodigo").eq(cid);
 						}
 					} catch (Exception e) {
+						logar(e.getMessage());
 					}
 				}
 				if (grupo!=null && !grupo.isEmpty()) {
@@ -54,6 +62,7 @@ public class ComandantePesquisa {
 							w.field("grupo.grucodigo").eq(gru);
 						}
 					} catch (Exception e) {
+						logar(e.getMessage());
 					}
 				}
 				if (situacao!=null && !situacao.isEmpty()) {
@@ -68,6 +77,7 @@ public class ComandantePesquisa {
 							w.field("comdatfim").lessThan(data);
 						}
 					} catch (Exception e) {
+						logar(e.getMessage());
 					}
 				}
 			})

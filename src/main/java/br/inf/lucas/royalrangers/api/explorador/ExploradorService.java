@@ -9,7 +9,6 @@ import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
-import javax.validation.Valid;
 import javax.validation.Validator;
 
 import org.hibernate.Query;
@@ -96,17 +95,17 @@ public class ExploradorService {
 		    	      " where "+row[3].toString()+"="+codigo+" limit 1";
 			qr = session.createSQLQuery(sql);
 			if (!qr.list().isEmpty()) {
-				msg.mensagem = "Há vínculos desse explorador com outros cadastros no sistema";
+				msg.setMensagem("Há vínculos desse explorador com outros cadastros no sistema");
 				return msg;
 			}
 		}
-		msg.mensagem = "";
+		msg.setMensagem("");
 		return msg;
 	}
 	
 	public Mensagem validarExplorador(Explorador explorador) {
 		Mensagem msg = new Mensagem();
-		msg.mensagem = "";
+		msg.setMensagem("");
 		Session session = this.em.unwrap(Session.class);
 		String sql = "select * from explorador where pescodigo = "+explorador.getPessoa().getPescodigo().toString()+"";
 		if (explorador.getExpcodigo().intValue()>0)
@@ -114,7 +113,7 @@ public class ExploradorService {
 		Query qr = session.createSQLQuery(sql).addEntity(Explorador.class);
 		List<Regiao> lista = qr.list();
 		if (!lista.isEmpty())
-			msg.mensagem += "Já existe um explorador para a pessoa informada!";
+			msg.setMensagem("Já existe um explorador para a pessoa informada!");
 		return msg;
 	}
 }

@@ -16,11 +16,7 @@ import javax.ws.rs.core.MediaType;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import com.ordnaelmedeiros.jpafluidselect.querybuilder.select.pagination.PaginationResult;
-
 import br.inf.lucas.royalrangers.api.Mensagem;
-import br.inf.lucas.royalrangers.api.cidade.Cidade;
-import br.inf.lucas.royalrangers.api.regiao.Regiao;
-import br.inf.lucas.royalrangers.api.regiao.RegiaoPesquisa;
 
 @Tag(name = "Usuario")
 @Path("/usuario")

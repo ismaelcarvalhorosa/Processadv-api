@@ -1,13 +1,13 @@
 package br.inf.lucas.royalrangers.api;
 
 public class Mensagem {
-	public String mensagem;
+	private String msg;
 
 	public String getMensagem() {
-		return mensagem;
+		return msg;
 	}
 
 	public void setMensagem(String mensagem) {
-		this.mensagem = mensagem;
+		this.msg = mensagem;
 	}
 }

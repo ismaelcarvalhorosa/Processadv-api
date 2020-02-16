@@ -9,7 +9,6 @@ import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
-import javax.validation.Valid;
 import javax.validation.Validator;
 
 import org.hibernate.Query;
@@ -17,9 +16,7 @@ import org.hibernate.Session;
 import org.hibernate.type.StringType;
 
 import com.ordnaelmedeiros.jpafluidselect.querybuilder.QueryBuilder;
-
 import br.inf.lucas.royalrangers.api.Mensagem;
-import br.inf.lucas.royalrangers.api.destacamento.Destacamento;
 
 @RequestScoped
 public class RegiaoService {
@@ -95,11 +92,11 @@ public class RegiaoService {
 		    	      " where "+row[3].toString()+"="+codigo+" limit 1";
 			qr = session.createSQLQuery(sql);
 			if (!qr.list().isEmpty()) {
-				msg.mensagem = "Há vínculos dessa região com outros cadastros no sistema";
+				msg.setMensagem("Há vínculos dessa região com outros cadastros no sistema");
 				return msg;
 			}
 		}
-		msg.mensagem = "";
+		msg.setMensagem("");
 		return msg;
 	}
 	
@@ -111,12 +108,10 @@ public class RegiaoService {
 			sql += " and regcodigo<>"+String.valueOf(regiao.getRegcodigo().intValue());
 		Query qr = session.createSQLQuery(sql).addEntity(Regiao.class);
 		List<Regiao> lista = qr.list();
-		qr = null;
-		session = null;
 		if (!lista.isEmpty())
-			msg.mensagem = "Já existe uma região com o nome informado!";
+			msg.setMensagem("Já existe uma região com o nome informado!");
 		else
-			msg.mensagem = "";
+			msg.setMensagem("");
 		return msg;
 	}
 }

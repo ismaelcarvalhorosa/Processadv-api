@@ -14,7 +14,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import br.inf.lucas.royalrangers.api.regiao.Regiao;
-//import br.inf.lucas.royalrangers.api.usuario.Usuario;
 import br.inf.lucas.royalrangers.api.usuario.Usuario;
 
 @Entity
@@ -83,12 +82,4 @@ public class Distrito {
 	public void setUsucodigo(Usuario usuario) {
 		this.usuario = usuario;
 	}
-
-	/*public Usuario getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}*/
 }

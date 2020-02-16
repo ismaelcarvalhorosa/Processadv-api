@@ -20,7 +20,6 @@ import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import com.ordnaelmedeiros.jpafluidselect.querybuilder.select.pagination.PaginationResult;
 
 import br.inf.lucas.royalrangers.api.Mensagem;
-import br.inf.lucas.royalrangers.api.explorador.Explorador;
 
 @Tag(name = "Comandante")
 @Path("/comandante")
