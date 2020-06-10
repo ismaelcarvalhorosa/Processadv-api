@@ -1,32 +1,35 @@
-package br.inf.lucas.royalrangers.api.regiao;
-
+package br.inf.lucas.processadv.api.usuarios;
+import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-
 import com.ordnaelmedeiros.jpafluidselect.querybuilder.QueryBuilder;
 import com.ordnaelmedeiros.jpafluidselect.querybuilder.select.pagination.PaginationResult;
 
 @RequestScoped
-public class RegiaoPesquisa {
+public class UsuariosPesquisa {
 
 	@Inject
 	EntityManager em;
 	
-	public PaginationResult<Regiao> executar(Integer pagina, String valor) {
-		
+	public PaginationResult<Usuarios> executar(Integer pagina, String valor) {
 		return new QueryBuilder(em)
-			.select(Regiao.class)
+			.select(Usuarios.class)
 			.where().orGroup(w -> {
 				if (valor!=null && !valor.isEmpty()) {
 					try {
 						Long id = Long.valueOf(valor);
-						w.field(Regiao_.regcodigo).eq(id);
+						w.field("usuario_id").eq(id);
 					} catch (Exception e) {
-						w.field(Regiao_.regnome).ilike("%"+valor+"%");
+						try {
+							w.field("usuario_nome").ilike("%"+valor+"%");
+						} catch (Exception e2) {
+							Logger.getLogger(e2.getMessage());
+						}
 					}
 				}
 			})
+			.order().asc("usuario_nome")
 			.pagination()
 				.page(pagina)
 				.getResultList();	

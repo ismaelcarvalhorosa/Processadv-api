@@ -1,4 +1,4 @@
-package br.inf.lucas.royalrangers.core;
+package br.inf.lucas.processadv.core;
 
 import java.io.IOException;
 

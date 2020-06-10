@@ -1,26 +1,22 @@
-package br.inf.lucas.royalrangers.api.pessoa;
-
+package br.inf.lucas.processadv.api.usuarios;
 import java.util.List;
 import java.util.Set;
-
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
+import javax.validation.Valid;
 import javax.validation.Validator;
-
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.type.StringType;
-
-import java.sql.Date;
 import com.ordnaelmedeiros.jpafluidselect.querybuilder.QueryBuilder;
-import br.inf.lucas.royalrangers.api.Mensagem;
+import br.inf.lucas.processadv.api.Mensagem;
 
 @RequestScoped
-public class PessoaService {
+public class UsuariosService {
 
 	@Inject
 	EntityManager em;
@@ -28,37 +24,33 @@ public class PessoaService {
 	@Inject
 	Validator validator;
 	
-	private void validar(Pessoa pessoa) {
-		Set<ConstraintViolation<Object>> validate = validator.validate(pessoa);
+	private void validar(Usuarios usuario) {
+		Set<ConstraintViolation<Object>> validate = validator.validate(usuario);
 		if (!validate.isEmpty()) {
 			throw new ConstraintViolationException(validate);
 		}
 	}
 	
-	public List<Pessoa> tudo() {
+	public List<Usuarios> tudo() {
 		return new QueryBuilder(em)
-			.select(Pessoa.class)
+			.select(Usuarios.class)
 			.getResultList();
 	}
 	
 	@Transactional
-	public Long gravar(Pessoa pessoa) {
-		Date data = new Date(System.currentTimeMillis());
-		pessoa.setPesdatalt(data);
-		em.persist(pessoa);
-		return pessoa.getPescodigo();
+	public Long gravar(@Valid Usuarios usuario) {
+		em.persist(usuario);
+		return usuario.getUsuario_id();
 	}
 
-	public Pessoa busca(Long id) {
-		return em.find(Pessoa.class, id);
+	public Usuarios busca(Long id) {
+		return em.find(Usuarios.class, id);
 	}
 
 	@Transactional
-	public void atualizar(Pessoa pessoa) {
-		Date data = new Date(System.currentTimeMillis());
-		pessoa.setPesdatalt(data);
-		this.validar(pessoa);
-		em.merge(pessoa);
+	public void atualizar(Usuarios usuario) {
+		this.validar(usuario);
+		em.merge(usuario);
 	}
 	
 	@Transactional
@@ -66,8 +58,24 @@ public class PessoaService {
 		em.remove(busca(id));
 	}
 	
+	public Mensagem validarUsuario(Usuarios usuario) {
+		Mensagem msg = new Mensagem();
+		Session session = this.em.unwrap(Session.class);
+		String sql = "select * from usuarios where upper(usuario_nome) = '"+usuario.getUsuario_nome().toUpperCase()+"'";
+		if (usuario.getUsuario_id()>0) {
+			sql += " and usuario_id<>"+usuario.getUsuario_id().toString();
+		}
+		Query qr = session.createSQLQuery(sql).addEntity(Usuarios.class);
+		List<Usuarios> lista = qr.list();
+		if (!lista.isEmpty()) {
+			msg.setMensagem("Há outro usuário cadastrado igual a esse!");
+			return msg;
+		}
+		msg.setMensagem("");
+		return msg;
+	}
+	
 	public Mensagem validarExclusao(String codigo) {
-		//pessoa em outros cadastros
 		Mensagem msg = new Mensagem();
 		Session session = this.em.unwrap(Session.class);
 		String sql = "SELECT distinct tc.table_schema, tc.constraint_name, tc.table_name, kcu.column_name, "+
@@ -78,7 +86,7 @@ public class PessoaService {
         "ON tc.constraint_name = kcu.constraint_name "+
         "JOIN information_schema.constraint_column_usage AS ccu "+
         "ON ccu.constraint_name = tc.constraint_name "+
-        "WHERE constraint_type = 'FOREIGN KEY' AND ccu.table_name='pessoa'";
+        "WHERE constraint_type = 'FOREIGN KEY' AND ccu.table_name='usuarios'";
 		Query qr = session.createSQLQuery(sql)
 						   .addScalar("table_schema", new StringType())
 						   .addScalar("constraint_name", new StringType())
@@ -93,7 +101,7 @@ public class PessoaService {
 		    	      " where "+row[3].toString()+"="+codigo+" limit 1";
 			qr = session.createSQLQuery(sql);
 			if (!qr.list().isEmpty()) {
-				msg.setMensagem("Há vínculos dessa pessoa com outros cadastros no sistema");
+				msg.setMensagem("Há vínculos desse usuário com outros cadastros no sistema");
 				return msg;
 			}
 		}
@@ -101,17 +109,14 @@ public class PessoaService {
 		return msg;
 	}
 	
-	public Mensagem validarPessoa(Pessoa pessoa) {
-		Mensagem msg = new Mensagem();
-		msg.setMensagem("");
+	public Usuarios login(Usuarios usu) {
+		Usuarios usuario = new Usuarios();
 		Session session = this.em.unwrap(Session.class);
-		String sql = "select * from pessoa where pescpf = '"+pessoa.getPescpf().toUpperCase()+"'";
-		if (pessoa.getPescodigo().intValue()>0)
-			sql += " and pescodigo<>"+String.valueOf(pessoa.getPescodigo().intValue());
-		Query qr = session.createSQLQuery(sql).addEntity(Pessoa.class);
-		List<Pessoa> lista = qr.list();
+		String sql = "select * from usuarios where usuario_login='"+usu.getUsuario_login()+"' and usuario_senha='"+usu.getUsuario_senha()+"'";
+		Query qr = session.createSQLQuery(sql).addEntity(Usuarios.class);
+		List<Usuarios> lista = qr.list();
 		if (!lista.isEmpty())
-			msg.setMensagem("Já existe uma pessoa informada com este CPF!");
-		return msg;
+			usuario = lista.get(0);
+		return usuario;
 	}
 }

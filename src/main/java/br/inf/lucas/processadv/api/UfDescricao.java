@@ -1,4 +1,4 @@
-package br.inf.lucas.royalrangers.api;
+package br.inf.lucas.processadv.api;
 
 public class UfDescricao {
 

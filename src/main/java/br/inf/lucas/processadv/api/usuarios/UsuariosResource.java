@@ -1,7 +1,5 @@
-package br.inf.lucas.royalrangers.api.usuario;
-
+package br.inf.lucas.processadv.api.usuarios;
 import java.util.List;
-
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -16,39 +14,52 @@ import javax.ws.rs.core.MediaType;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import com.ordnaelmedeiros.jpafluidselect.querybuilder.select.pagination.PaginationResult;
-import br.inf.lucas.royalrangers.api.Mensagem;
+import br.inf.lucas.processadv.api.Mensagem;
 
-@Tag(name = "Usuario")
-@Path("/usuario")
+@Tag(name = "Usuarios")
+@Path("/usuarios")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public class UsuarioResource {
+public class UsuariosResource {
 
 	@Inject
-	UsuarioService usuarioService;
+	UsuariosService usuarioService;
 	
 	@Inject
-	UsuarioPesquisa usuarioPesquisa;
+	UsuariosPesquisa usuarioPesquisa;
 	
 	@POST
-	public Long post(Usuario usuario) {
+	public Long post(Usuarios usuario) {
 		return usuarioService.gravar(usuario);
 	}
 	
 	@GET
 	@Path("/{id}")
-	public Usuario get(@PathParam("id") Long id) {
+	public Usuarios get(@PathParam("id") Long id) {
 		return usuarioService.busca(id);
 	}
 	
 	@GET
 	@Path("/tudo")
-	public List<Usuario> getTodos() {
+	public List<Usuarios> getTodas() {
 		return usuarioService.tudo();
 	}
 	
+	@POST
+	@Path("/validar")
+	public Mensagem validarUsuario(Usuarios usuario) {
+		return usuarioService.validarUsuario(usuario);
+	}
+	
+	@GET
+	@Path("/validarexclusao")
+	public Mensagem validarExclusao(
+			@Parameter(required = false, name = "codigo") @QueryParam("codigo") String codigo) {
+		return usuarioService.validarExclusao(codigo);
+	}
+	
 	@PUT
-	public void put(Usuario usuario) {
+	public void put(Usuarios usuario) {
 		usuarioService.atualizar(usuario);
 	}
 	
@@ -60,29 +71,15 @@ public class UsuarioResource {
 	
 	@GET
 	@Path("/pesquisa")
-	public PaginationResult<Usuario> pesquisa(
+	public PaginationResult<Usuarios> pesquisa(
 			@QueryParam("pagina") Integer pagina,
-			@Parameter(required = false, name = "valor") @QueryParam("valor") String valor,
-			@Parameter(required = false, name = "dest") @QueryParam("dest") String dest) {
-		return usuarioPesquisa.executar(pagina, valor, dest);
-	}
-	
-	@GET
-	@Path("/validarexclusao")
-	public Mensagem validarExclusao(
-			@Parameter(required = false, name = "codigo") @QueryParam("codigo") String codigo) {
-		return usuarioService.validarExclusao(codigo);
-	}
-	
-	@POST
-	@Path("/validarusuario")
-	public Mensagem validarUsuario(Usuario usuario) {
-		return usuarioService.validarUsuario(usuario);
+			@Parameter(required = false, name = "valor") @QueryParam("valor") String valor) {
+		return usuarioPesquisa.executar(pagina, valor);
 	}
 	
 	@POST
 	@Path("/login")
-	public Usuario login(Usuario usuario) {
+	public Usuarios login(Usuarios usuario) {
 		return usuarioService.login(usuario);
 	}
 }

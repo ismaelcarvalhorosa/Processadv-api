@@ -1,38 +1,29 @@
-package br.inf.lucas.royalrangers.api.grupo;
-
-import java.util.logging.Logger;
-
+package br.inf.lucas.processadv.api.cliente_contato;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-
 import com.ordnaelmedeiros.jpafluidselect.querybuilder.QueryBuilder;
 import com.ordnaelmedeiros.jpafluidselect.querybuilder.select.pagination.PaginationResult;
 
 @RequestScoped
-public class GrupoPesquisa {
+public class ClienteContatoPesquisa {
 
 	@Inject
 	EntityManager em;
 	
-	public PaginationResult<Grupo> executar(Integer pagina, String valor) {
-		
+	public PaginationResult<ClienteContato> executar(Integer pagina, String cliente) {
 		return new QueryBuilder(em)
-			.select(Grupo.class)
+			.select(ClienteContato.class)
 			.where().orGroup(w -> {
-				if (valor!=null && !valor.isEmpty()) {
+				if (cliente!=null && !cliente.isEmpty()) {
 					try {
-						Long id = Long.valueOf(valor);
-						w.field(Grupo_.grucodigo).eq(id);
+						Long id = Long.valueOf(cliente);
+						w.field("cliente_id").eq(id);
 					} catch (Exception e) {
-						try {
-							w.field(Grupo_.grunome).ilike("%"+valor+"%");
-						} catch (Exception e2) {
-							Logger.getLogger(e2.getMessage());
-						}
 					}
 				}
 			})
+			.order().asc("descricao")
 			.pagination()
 				.page(pagina)
 				.getResultList();	

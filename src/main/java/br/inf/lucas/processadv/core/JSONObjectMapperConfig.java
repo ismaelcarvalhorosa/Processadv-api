@@ -1,4 +1,4 @@
-package br.inf.lucas.royalrangers.core;
+package br.inf.lucas.processadv.core;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
