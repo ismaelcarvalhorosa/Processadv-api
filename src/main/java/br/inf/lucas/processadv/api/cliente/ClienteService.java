@@ -1,4 +1,4 @@
-package br.inf.lucas.royalrangers.api.cidade;
+package br.inf.lucas.processadv.api.cliente;
 import java.util.List;
 import java.util.Set;
 import javax.enterprise.context.RequestScoped;
@@ -9,15 +9,15 @@ import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 import javax.validation.Validator;
-
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.type.StringType;
 import com.ordnaelmedeiros.jpafluidselect.querybuilder.QueryBuilder;
-import br.inf.lucas.royalrangers.api.Mensagem;
+
+import br.inf.lucas.processadv.api.Mensagem;
 
 @RequestScoped
-public class CidadeService {
+public class ClienteService {
 
 	@Inject
 	EntityManager em;
@@ -25,33 +25,33 @@ public class CidadeService {
 	@Inject
 	Validator validator;
 	
-	private void validar(Cidade cidade) {
-		Set<ConstraintViolation<Object>> validate = validator.validate(cidade);
+	private void validar(Cliente cliente) {
+		Set<ConstraintViolation<Object>> validate = validator.validate(cliente);
 		if (!validate.isEmpty()) {
 			throw new ConstraintViolationException(validate);
 		}
 	}
 	
-	public List<Cidade> tudo() {
+	public List<Cliente> tudo() {
 		return new QueryBuilder(em)
-			.select(Cidade.class)
+			.select(Cliente.class)
 			.getResultList();
 	}
 	
 	@Transactional
-	public Long gravar(@Valid Cidade cidade) {
-		em.persist(cidade);
-		return cidade.getCidcodigo();
+	public Long gravar(@Valid Cliente cliente) {
+		em.persist(cliente);
+		return cliente.getCliente_id();
 	}
 
-	public Cidade busca(Long id) {
-		return em.find(Cidade.class, id);
+	public Cliente busca(Long id) {
+		return em.find(Cliente.class, id);
 	}
 
 	@Transactional
-	public void atualizar(Cidade cidade) {
-		this.validar(cidade);
-		em.merge(cidade);
+	public void atualizar(Cliente cliente) {
+		this.validar(cliente);
+		em.merge(cliente);
 	}
 	
 	@Transactional
@@ -59,19 +59,17 @@ public class CidadeService {
 		em.remove(busca(id));
 	}
 	
-	public Mensagem validarCidade(Cidade cidade) {
-		//cidade duplicada no banco
+	public Mensagem validarCliente(Cliente cliente) {
 		Mensagem msg = new Mensagem();
 		Session session = this.em.unwrap(Session.class);
-		String sql = "select * from cidade where upper(cidnome) = '"+cidade.getCidnome().toUpperCase()+
-				 	 "' and upper(ciduf)= '"+cidade.getCiduf()+"'";
-		if (cidade.getCidcodigo()>0) {
-			sql += " and cidcodigo<>"+cidade.getCidcodigo().toString();
+		String sql = "select * from cliente where upper(nome) = '"+cliente.getNome().toUpperCase()+"'";
+		if (cliente.getCliente_id()>0) {
+			sql += " and cliente_id<>"+cliente.getCliente_id().toString();
 		}
-		Query qr = session.createSQLQuery(sql).addEntity(Cidade.class);
-		List<Cidade> lista = qr.list();
+		Query qr = session.createSQLQuery(sql).addEntity(Cliente.class);
+		List<Cliente> lista = qr.list();
 		if (!lista.isEmpty()) {
-			msg.setMensagem("Há outra cidade cadastrada igual a essa!");
+			msg.setMensagem("Há outro cliente cadastrado igual a esse!");
 			return msg;
 		}
 		msg.setMensagem("");
@@ -79,7 +77,6 @@ public class CidadeService {
 	}
 	
 	public Mensagem validarExclusao(String codigo) {
-		//cidade em outros cadastros
 		Mensagem msg = new Mensagem();
 		Session session = this.em.unwrap(Session.class);
 		String sql = "SELECT distinct tc.table_schema, tc.constraint_name, tc.table_name, kcu.column_name, "+
@@ -90,7 +87,7 @@ public class CidadeService {
         "ON tc.constraint_name = kcu.constraint_name "+
         "JOIN information_schema.constraint_column_usage AS ccu "+
         "ON ccu.constraint_name = tc.constraint_name "+
-        "WHERE constraint_type = 'FOREIGN KEY' AND ccu.table_name='cidade'";
+        "WHERE constraint_type = 'FOREIGN KEY' AND ccu.table_name='empresa'";
 		Query qr = session.createSQLQuery(sql)
 						   .addScalar("table_schema", new StringType())
 						   .addScalar("constraint_name", new StringType())
@@ -105,7 +102,7 @@ public class CidadeService {
 		    	      " where "+row[3].toString()+"="+codigo+" limit 1";
 			qr = session.createSQLQuery(sql);
 			if (!qr.list().isEmpty()) {
-				msg.setMensagem("Há vínculos dessa cidade com outros cadastros no sistema");
+				msg.setMensagem("Há vínculos desse cliente com outros cadastros no sistema");
 				return msg;
 			}
 		}

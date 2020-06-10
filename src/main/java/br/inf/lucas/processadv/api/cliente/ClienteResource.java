@@ -1,9 +1,6 @@
-package br.inf.lucas.royalrangers.api.cidade;
+package br.inf.lucas.processadv.api.cliente;
 
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -18,79 +15,70 @@ import javax.ws.rs.core.MediaType;
 
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
-
 import com.ordnaelmedeiros.jpafluidselect.querybuilder.select.pagination.PaginationResult;
 
-import br.inf.lucas.royalrangers.api.Mensagem;
-import br.inf.lucas.royalrangers.api.UF;
-import br.inf.lucas.royalrangers.api.UfDescricao;
-import br.inf.lucas.royalrangers.api.cidade.Cidade;
-import br.inf.lucas.royalrangers.api.cidade.CidadePesquisa;
+import br.inf.lucas.processadv.api.Mensagem;
+import br.inf.lucas.processadv.api.cliente.Cliente;
+import br.inf.lucas.processadv.api.cliente.ClientePesquisa;
 
-@Tag(name = "Cidade")
-@Path("/cidade")
+@Tag(name = "Cliente")
+@Path("/cliente")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public class CidadeResource {
+public class ClienteResource {
 
 	@Inject
-	CidadeService cidadeService;
+	ClienteService clienteService;
 	
 	@Inject
-	CidadePesquisa cidadePesquisa;
+	ClientePesquisa clientePesquisa;
 	
 	@POST
-	public Long post(Cidade cidade) {
-		return cidadeService.gravar(cidade);
+	public Long post(Cliente cliente) {
+		return clienteService.gravar(cliente);
 	}
 	
 	@GET
 	@Path("/{id}")
-	public Cidade get(@PathParam("id") Long id) {
-		return cidadeService.busca(id);
+	public Cliente get(@PathParam("id") Long id) {
+		return clienteService.busca(id);
 	}
 	
 	@GET
 	@Path("/tudo")
-	public List<Cidade> getTodas() {
-		return cidadeService.tudo();
+	public List<Cliente> getTodas() {
+		return clienteService.tudo();
 	}
 	
 	@POST
-	@Path("/validarcidade")
-	public Mensagem validarCidade(Cidade cidade) {
-		return cidadeService.validarCidade(cidade);
+	@Path("/validarcliente")
+	public Mensagem validarCliente(Cliente cliente) {
+		return clienteService.validarCliente(cliente);
 	}
 	
 	@GET
 	@Path("/validarexclusao")
 	public Mensagem validarExclusao(
 			@Parameter(required = false, name = "codigo") @QueryParam("codigo") String codigo) {
-		return cidadeService.validarExclusao(codigo);
+		return clienteService.validarExclusao(codigo);
 	}
 	
 	@PUT
-	public void put(Cidade cidade) {
-		cidadeService.atualizar(cidade);
+	public void put(Cliente cliente) {
+		clienteService.atualizar(cliente);
 	}
 	
 	@DELETE
 	@Path("/{id}")
 	public void delete(@PathParam("id") Long id) {
-		cidadeService.remover(id);
-	}
-	
-	@GET
-	@Path("/uf/tudo")
-	public List<UfDescricao> ufs() {
-		return Stream.of(UF.values()).map(UfDescricao::parse).collect(Collectors.toList());
+		clienteService.remover(id);
 	}
 	
 	@GET
 	@Path("/pesquisa")
-	public PaginationResult<Cidade> pesquisa(
+	public PaginationResult<Cliente> pesquisa(
 			@QueryParam("pagina") Integer pagina,
 			@Parameter(required = false, name = "valor") @QueryParam("valor") String valor) {
-		return cidadePesquisa.executar(pagina, valor);
+		return clientePesquisa.executar(pagina, valor);
 	}
 }

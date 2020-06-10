@@ -1,14 +1,14 @@
-package br.inf.lucas.royalrangers.api.config;
+package br.inf.lucas.processadv.api.config;
 
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 
 @Tag(name = "Config", description = "Configuração do sistema")
@@ -25,6 +25,11 @@ public class ConfigResource {
 		return configService.busca(id);
 	}
 	
+	@PUT
+	public void put(Config config) {
+		configService.atualizar(config);
+	}
+	
 	@GET
 	@Path("porNome/{nome}")
 	public List<Config> get(@PathParam("nome") String nome) {
@@ -36,5 +41,4 @@ public class ConfigResource {
 	public List<Config> getTodas() {
 		return configService.tudo();
 	}
-	
 }

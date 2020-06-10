@@ -1,4 +1,4 @@
-package br.inf.lucas.royalrangers.core.exception;
+package br.inf.lucas.processadv.core.exception;
 
 import java.util.List;
 

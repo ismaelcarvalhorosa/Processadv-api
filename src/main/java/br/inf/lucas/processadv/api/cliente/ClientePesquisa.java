@@ -1,39 +1,36 @@
-package br.inf.lucas.royalrangers.api.cidade;
+package br.inf.lucas.processadv.api.cliente;
 
+import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
-
 import com.ordnaelmedeiros.jpafluidselect.querybuilder.QueryBuilder;
 import com.ordnaelmedeiros.jpafluidselect.querybuilder.select.pagination.PaginationResult;
 
-import br.inf.lucas.royalrangers.api.UF;
-
 @RequestScoped
-public class CidadePesquisa {
+public class ClientePesquisa {
 
 	@Inject
 	EntityManager em;
 	
-	public PaginationResult<Cidade> executar(Integer pagina, String valor) {
-		
+	public PaginationResult<Cliente> executar(Integer pagina, String valor) {
 		return new QueryBuilder(em)
-			.select(Cidade.class)
+			.select(Cliente.class)
 			.where().orGroup(w -> {
 				if (valor!=null && !valor.isEmpty()) {
 					try {
 						Long id = Long.valueOf(valor);
-						w.field(Cidade_.cidcodigo).eq(id);
+						w.field("cliente_id").eq(id);
 					} catch (Exception e) {
 						try {
-							UF uf = UF.valueOf(valor.toUpperCase());
-							w.field(Cidade_.ciduf).eq(uf);
+							w.field("nome").ilike("%"+valor+"%");
 						} catch (Exception e2) {
-							w.field(Cidade_.cidnome).ilike("%"+valor+"%");
+							Logger.getLogger(e2.getMessage());
 						}
 					}
 				}
 			})
+			.order().asc("nome")
 			.pagination()
 				.page(pagina)
 				.getResultList();	
